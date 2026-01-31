@@ -10,6 +10,7 @@
     "start-react": "cd ./qiankun-react && npm run start-no-open",
     "start-vue": "cd ./qiankun-vue && npm run serve",
     "install:all": "npm install && cd ./qiankun-react && npm install && cd ../qiankun-vue && npm install",
+    "clean": "rm -rf node_modules && rm -rf qiankun-react/node_modules && rm -rf qiankun-vue/node_modules",
     "react-deploy": "cd ./qiankun-react && s deploy -y",
     "vue-deploy": "cd ./qiankun-vue && s deploy -y",
     "deploy": "s deploy -y &  npm run react-deploy & npm run vue-deploy",
@@ -29,6 +30,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.0.0",
     "kill-port": "^2.0.1",
+    "less": "^4.5.1",
     "typescript": "^5.9.3",
     "vite": "^5.0.0"
   }
