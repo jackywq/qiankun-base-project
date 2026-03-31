@@ -41,10 +41,19 @@ const App = () => {
       },
     ];
     registerMicroApps(apps as any);
-    // 开启严格的样式隔离
+    /**
+     * 【注意】
+     * strictStyleIsolation 是 qiankun 的严格样式隔离：
+     * 它会用 ShadowDOM 包裹子应用
+     * ShadowDOM 会重建一套独立的 DOM 树
+     * 会劫持 history 路由
+     * 会让子应用的路由跳转被判定为外部跳转
+     * 最终结果：浏览器认为页面刷新 → 刷新按钮亮了、甚至整页刷新
+     */
     start({
       sandbox: {
-        strictStyleIsolation: true,
+        // strictStyleIsolation: true, // ❌ 关闭 开启严格的样式隔离
+        experimentalStyleIsolation: true, // ✅ 开启温和隔离
       },
     });
   }, []);

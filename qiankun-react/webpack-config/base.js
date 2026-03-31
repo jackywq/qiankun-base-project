@@ -20,15 +20,19 @@ const PostcssLoader = {
   },
 };
 
+const packageName = "reactApp";
+
 module.exports = (isProductionMode) => ({
   entry: "./src/index.js",
   output: {
     path: resolve("./dist"), // 打包后的文件存放的地方
-    library: "reactApp",
+    library: `${packageName}-[name]`,
     libraryTarget: "umd",
     filename: "react/js/[name].[chunkhash:8].js",
     chunkFilename: "react/js/[name].[chunkhash:8].js",
     publicPath: "/",
+    chunkLoadingGlobal: `webpackJsonp_${packageName}`,
+    globalObject: "window",
   },
   module: {
     rules: [
