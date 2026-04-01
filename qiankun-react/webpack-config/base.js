@@ -28,11 +28,10 @@ module.exports = (isProductionMode) => ({
     path: resolve("./dist"), // 打包后的文件存放的地方
     library: `${packageName}-[name]`,
     libraryTarget: "umd",
+    chunkLoadingGlobal: `webpackJsonp_${packageName}`,
     filename: "react/js/[name].[chunkhash:8].js",
     chunkFilename: "react/js/[name].[chunkhash:8].js",
     publicPath: "/",
-    chunkLoadingGlobal: `webpackJsonp_${packageName}`,
-    globalObject: "window",
   },
   module: {
     rules: [

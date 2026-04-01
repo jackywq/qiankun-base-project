@@ -10,7 +10,6 @@ const { Header, Content } = Layout;
 
 export default function App() {
   const basename = window.__POWERED_BY_QIANKUN__ ? "/react" : "/";
-
   return (
     <Router basename={basename}>
       <Layout style={{ background: "transparent" }}>

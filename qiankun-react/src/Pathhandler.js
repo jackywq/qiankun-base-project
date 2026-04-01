@@ -3,9 +3,12 @@ import { Menu } from "antd";
 import { Link } from "react-router-dom";
 
 export default function PathHandler() {
-  //   const path = window.location.pathname.replace(/^\/react/, "") || "/";
+  const path = window.location.pathname.replace(/^\/react/, "");
   const [selectedKey, setSelectedKey] = useState("welcome");
 
+  useEffect(() => {
+    setSelectedKey(path.split("/")[1] || "welcome");
+  }, [path]);
   return (
     <Menu mode="horizontal" selectedKeys={[selectedKey]}>
       <Menu.Item key="welcome" onClick={() => setSelectedKey("welcome")}>
