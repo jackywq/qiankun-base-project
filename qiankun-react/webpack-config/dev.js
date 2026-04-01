@@ -1,10 +1,14 @@
 const { merge } = require("webpack-merge");
 const getBaseConfig = require("./base");
+const webpack = require("webpack");
 
 module.exports = merge(getBaseConfig(false), {
   devtool: "eval-source-map",
   mode: "development",
-  plugins: [],
+  plugins: [
+    // ✅ 热更新必须加这个插件（React 16 必备）
+    new webpack.HotModuleReplacementPlugin(),
+  ],
   devServer: {
     contentBase: "dist",
     historyApiFallback: {
@@ -19,6 +23,10 @@ module.exports = merge(getBaseConfig(false), {
     open: false,
     overlay: true,
     disableHostCheck: true,
+    // ✅ 开启热更新
+    // hot: true,
+    // ✅ 必须关闭，否则热更新失效
+    // liveReload: false,
     port: 20000, // 端口
     headers: {
       "Access-Control-Allow-Origin": "*",

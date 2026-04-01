@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Layout } from "antd";
-import { registerMicroApps, start } from "qiankun";
+import { registerMicroApps, start, prefetchApps } from "qiankun";
 import RouterConfig from "./router";
 import SiderMenu from "./components/SiderMenu";
 import HeaderMenu from "./components/HeaderMenu";
@@ -40,6 +40,7 @@ const App = () => {
         activeRule: "/react",
       },
     ];
+    // prefetchApps(apps);
     registerMicroApps(apps as any);
     /**
      * 【注意】
@@ -51,6 +52,7 @@ const App = () => {
      * 最终结果：浏览器认为页面刷新 → 刷新按钮亮了、甚至整页刷新
      */
     start({
+      prefetch: true,
       sandbox: {
         // strictStyleIsolation: true, // ❌ 关闭 开启严格的样式隔离
         experimentalStyleIsolation: true, // ✅ 开启温和隔离
