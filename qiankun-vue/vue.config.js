@@ -2,7 +2,7 @@ const packageName = "vueApp";
 
 module.exports = {
   // 生产环境打包到二级目录 /vue，并让静态资源引用以 /vue/ 为前缀
-  publicPath: process.env.NODE_ENV === "production" ? "/vue/" : "/",
+  publicPath: "./",
   // 生产环境输出目录
   outputDir: "dist",
 
