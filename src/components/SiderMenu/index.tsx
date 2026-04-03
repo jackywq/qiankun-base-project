@@ -18,7 +18,6 @@ export default () => {
     const path = location.pathname || "/";
     if (path.startsWith("/vue")) return "vue";
     if (path.startsWith("/react")) return "react";
-    if (path.startsWith("/yugong")) return "yugong";
     return "home";
   }, [location.pathname]);
 
@@ -33,7 +32,6 @@ export default () => {
       home: "/",
       vue: "/vue",
       react: "/react",
-      yugong: "/yugong",
     };
     const to = map[key] || "/";
     if (to !== location.pathname) navigate(to);

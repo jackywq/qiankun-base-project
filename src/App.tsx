@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Layout } from "antd";
-import { registerMicroApps, start, prefetchApps } from "qiankun";
+import { registerMicroApps, start } from "qiankun";
+import { useLocation } from "react-router-dom";
 import RouterConfig from "./router";
 import SiderMenu from "./components/SiderMenu";
 import HeaderMenu from "./components/HeaderMenu";
@@ -8,16 +9,22 @@ import "./index.less";
 
 const { Content } = Layout;
 
-type MicroApp = {
-  name: string;
-  entry: string;
-  container: string;
-  activeRule: string;
-  props?: unknown;
-};
+const AUTH_STORAGE_KEY = "qiankun-base-token";
+let microAppsRegistered = false;
+let qiankunStarted = false;
+type RegisterMicroAppsParams = Parameters<typeof registerMicroApps>[0];
 
 const App = () => {
+  const location = useLocation();
+
   useEffect(() => {
+    if (
+      location.pathname === "/login" ||
+      !window.localStorage.getItem(AUTH_STORAGE_KEY)
+    ) {
+      return;
+    }
+
     const isProd = import.meta.env.PROD;
     const vueEntry = isProd
       ? "https://qiankun-micro-vue.vercel.app/"
@@ -25,7 +32,7 @@ const App = () => {
     const reactEntry = isProd
       ? "https://qiankun-micro-react.vercel.app/"
       : "//localhost:20000";
-    const apps: MicroApp[] = [
+    const apps: RegisterMicroAppsParams = [
       {
         name: "vueApp",
         entry: vueEntry,
@@ -40,8 +47,12 @@ const App = () => {
         activeRule: "/react",
       },
     ];
-    // prefetchApps(apps);
-    registerMicroApps(apps as any);
+
+    if (!microAppsRegistered) {
+      registerMicroApps(apps);
+      microAppsRegistered = true;
+    }
+
     /**
      * 【注意】
      * strictStyleIsolation 是 qiankun 的严格样式隔离：
@@ -51,14 +62,20 @@ const App = () => {
      * 会让子应用的路由跳转被判定为外部跳转
      * 最终结果：浏览器认为页面刷新 → 刷新按钮亮了、甚至整页刷新
      */
-    start({
-      prefetch: true,
-      sandbox: {
-        // strictStyleIsolation: true, // ❌ 关闭 开启严格的样式隔离
-        experimentalStyleIsolation: true, // ✅ 开启温和隔离
-      },
-    });
-  }, []);
+    if (!qiankunStarted) {
+      start({
+        prefetch: true,
+        sandbox: {
+          experimentalStyleIsolation: true,
+        },
+      });
+      qiankunStarted = true;
+    }
+  }, [location.pathname]);
+
+  if (location.pathname === "/login") {
+    return <RouterConfig />;
+  }
 
   return (
     <Layout id="app-layout">
