@@ -40,8 +40,8 @@ module.exports = (isProductionMode) => ({
     library: `${packageName}-[name]`,
     libraryTarget: "umd",
     chunkLoadingGlobal: `webpackJsonp_${packageName}`,
-    filename: "react/js/[name].[chunkhash:8].js",
-    chunkFilename: "react/js/[name].[chunkhash:8].js",
+    filename: "js/[name].[chunkhash:8].js",
+    chunkFilename: "js/[name].[chunkhash:8].js",
     publicPath: "/",
     // qiankun 场景下固定挂载到 window，避免 UMD 默认挂到 self 导致生命周期读取异常
     globalObject: "window",
@@ -119,7 +119,7 @@ module.exports = (isProductionMode) => ({
     }),
     new HtmlWebpackPlugin({
       // 根据模板插入css/js等生成最终HTML
-      filename: "./react/index.html", // 生成的html存放路径，相对于 path
+      filename: "./index.html", // 生成的html存放路径，相对于 path
       template: "./public/index.html", // html模板路径
       hash: true, // 为静态资源生成hash值
       minify: false,

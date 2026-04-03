@@ -2,9 +2,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { merge } = require("webpack-merge");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const getBaseConfig = require("./base");
-const path = require('path');
+const path = require("path");
 
-module.exports = merge(getBaseConfig(false), {
+module.exports = merge(getBaseConfig(true), {
   mode: "production",
   devtool: "source-map",
   plugins: [new CleanWebpackPlugin()],
@@ -36,7 +36,7 @@ module.exports = merge(getBaseConfig(false), {
             // get the name. E.g. node_modules/packageName/not/this/part.js
             // or node_modules/packageName
             const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
             )[1];
 
             // npm package names are URL-safe, but some servers don't like @ symbols
