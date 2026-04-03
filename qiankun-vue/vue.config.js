@@ -1,23 +1,23 @@
-const packageName = 'vueApp';
+const packageName = "vueApp";
 
 module.exports = {
   // 生产环境打包到二级目录 /vue，并让静态资源引用以 /vue/ 为前缀
-  publicPath: process.env.NODE_ENV === 'production' ? '/vue/' : '/',
+  publicPath: process.env.NODE_ENV === "production" ? "/vue/" : "/",
   // 生产环境输出目录
-  outputDir: 'dist/vue',
+  outputDir: "dist",
 
   devServer: {
     port: 10000,
     // 支持跨域
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Origin": "*",
     },
   },
 
   configureWebpack: {
     output: {
       library: packageName,
-      libraryTarget: 'umd',
+      libraryTarget: "umd",
       jsonpFunction: `webpackJsonp_${packageName}`,
     },
   },
