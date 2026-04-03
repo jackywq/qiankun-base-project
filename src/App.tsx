@@ -20,10 +20,10 @@ const App = () => {
   useEffect(() => {
     const isProd = import.meta.env.PROD;
     const vueEntry = isProd
-      ? "http://pangu-sub.zerocmf.com/vue/"
+      ? "https://qiankun-micro-vue.vercel.app/"
       : "//localhost:10000";
     const reactEntry = isProd
-      ? "http://pangu-sub.zerocmf.com/react/"
+      ? "https://qiankun-micro-react.vercel.app/"
       : "//localhost:20000";
     const apps: MicroApp[] = [
       {
