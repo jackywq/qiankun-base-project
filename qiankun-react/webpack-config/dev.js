@@ -5,6 +5,11 @@ const webpack = require("webpack");
 module.exports = merge(getBaseConfig(false), {
   devtool: "eval-source-map",
   mode: "development",
+  // 开发环境必须使用绝对 publicPath，避免主应用端口(8888)错误请求微应用静态资源
+  // 同时保证 HMR 请求(.hot-update.*)始终发往 react 子应用服务(20000)
+  output: {
+    publicPath: "http://localhost:20000/",
+  },
   plugins: [
     // ✅ 热更新必须加这个插件（React 16 必备）
     new webpack.HotModuleReplacementPlugin(),
@@ -23,8 +28,10 @@ module.exports = merge(getBaseConfig(false), {
     open: false,
     overlay: true,
     disableHostCheck: true,
+    injectClient: false,
+    injectHot: false,
     // ✅ 开启热更新
-    // hot: true,
+    hot: true,
     // ✅ 必须关闭，否则热更新失效
     // liveReload: false,
     port: 20000, // 端口

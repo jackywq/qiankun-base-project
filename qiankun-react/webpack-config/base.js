@@ -23,7 +23,18 @@ const PostcssLoader = {
 const packageName = "reactApp";
 
 module.exports = (isProductionMode) => ({
-  entry: "./src/index.js",
+  entry: isProductionMode
+    ? "./src/index.js"
+    : /**
+       * 在 Webpack 5 中，当 entry 是一个数组时，Webpack 会将数组中 最后一个模块的导出（exports） 作为整个库（library）的导出。
+       * 如果你不手动写这个数组 ： webpack-dev-server 默认会自动将这两个热更新脚本追加到你的 entry 后面。导致最终导出的其实是 webpack/hot/dev-server 的内容，而不是你 index.js 里写的生命周期函数。这就会引发你之前遇到的报错： You need to export lifecycle functions in reactApp entry 。
+       * 手动配置并放在最后 ：通过手动配置，我们将热更新客户端代码放在前面，而把真实的业务入口 ./src/index.js 放在数组的最后。这样一来，既让热更新代码生效了，又保证了最终对外暴露的是 index.js 中定义的 Qiankun 生命周期函数。
+       */
+      [
+        "webpack-dev-server/client?http://localhost:20000",
+        "webpack/hot/dev-server",
+        "./src/index.js",
+      ],
   output: {
     path: resolve("./dist"), // 打包后的文件存放的地方
     library: `${packageName}-[name]`,
@@ -32,6 +43,8 @@ module.exports = (isProductionMode) => ({
     filename: "react/js/[name].[chunkhash:8].js",
     chunkFilename: "react/js/[name].[chunkhash:8].js",
     publicPath: "/",
+    // qiankun 场景下固定挂载到 window，避免 UMD 默认挂到 self 导致生命周期读取异常
+    globalObject: "window",
   },
   module: {
     rules: [
